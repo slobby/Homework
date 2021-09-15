@@ -3,15 +3,14 @@
 
 import pprint
 from typing import Tuple
+import functools
 
 def conv_tuple(input_tuple: Tuple[int, ...]) -> int:
     DEC: int = 10
-    number: int = 0
-    power: int = len(input_tuple)-1
-    for k, v in enumerate(input_tuple):
-        number += v * (DEC**power)
-        power -=1
-    return number
+    return functools.reduce(
+        lambda sum, item : sum + item[1] * (DEC**item[0]),
+        enumerate(reversed(input_tuple)),
+                  0)
 
 def handele_list(t) -> None:
     print("Input:")
