@@ -1,0 +1,20 @@
+1.  - git init
+2.  - echo some-text  > somefile.txt
+    - git add somefile.txt
+    - git commit -m "first commit"
+3.  - gh repo create python-git-test
+4.  - git push -u origin main
+5.  - git checkout -b develop
+6.  - git checkout -b develop-new
+7.  - git add . && git commit -m "add string from develop-new" && git push -u origin develop-new
+8.  - git clone git@github.com:slobby/python-git-test.git
+9.  - git checkout -b develop-another
+10. - git add . && git commit -m "commit from develop-another" && git push -u origin develop-another
+11. - git checkout develop-new
+    - git checkout develop-another
+12. - git merge develop-new && git push
+13. - git merge develop-another && git push
+14. - git branch --set-upstream-to=origin/develop develop
+15. - git pull
+    - git status
+    - git mergetool
