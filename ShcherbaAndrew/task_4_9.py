@@ -10,9 +10,11 @@ def test_1_1(*strings: str) -> Set[str]:
     return reduce(lambda acc, s: acc & s,
                   map(lambda x: set(x), strings))
 
+
 def test_1_2(*strings: str) -> Set[str]:
     return reduce(lambda acc, s: acc | s,
                   map(lambda x: set(x), strings))
+
 
 def test_1_3(*strings: str) -> Set[str]:
     acc = set()
@@ -23,11 +25,13 @@ def test_1_3(*strings: str) -> Set[str]:
             acc = acc | s & item
     return acc
 
+
 def test_1_4(*strings: str) -> Set[str]:
     return reduce(lambda acc, s: acc - s,
                   map(lambda x: set(x.lower()), strings),
                   set(string.ascii_lowercase),
                   )
+
 
 def main():
     test_strings = ["hello", "world", "python", ]
@@ -35,6 +39,7 @@ def main():
     print(test_1_2(*test_strings))
     print(test_1_3(*test_strings))
     print(test_1_4(*test_strings))
+
 
 if __name__ == "__main__":
     main()
