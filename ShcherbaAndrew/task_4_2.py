@@ -7,7 +7,7 @@ from typing import Dict
 def most_common_words(filepath, number_of_words=3) -> None:
     temp_words: Dict[str, int] = {}
     try:
-        with open(filepath, encoding='utf-8', newline=None) as fr:
+        with open(filepath, encoding="utf-8", newline="") as fr:
             for line in fr:
                 words_list = filter(lambda x: len(x) != 0,
                                     map(lambda w: w.lower().strip("\r\n .,"),
@@ -19,7 +19,7 @@ def most_common_words(filepath, number_of_words=3) -> None:
             temp_words.items(), key=lambda item: item[1], reverse=True)))
         print(sorted_words[:number_of_words])
     except:
-        print('An exception occurred')
+        print("An exception occurred")
 
 
 if __name__ == "__main__":
