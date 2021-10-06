@@ -1,9 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import itertools
-import pprint
-
 
 class OutOfRangeError(Exception):
     def __str__(self):
@@ -11,7 +8,7 @@ class OutOfRangeError(Exception):
 
 
 class Counter:
-    def __init__(self, start=0, stop=None) -> None:
+    def __init__(self, start: int = 0, stop: int = None) -> None:
         self._start = start
         self._stop = stop
 
