@@ -27,7 +27,7 @@ class FlyingBird(Bird):
         print(f"{self._name} eats {self._ration}")
 
     def __str__(self) -> str:
-        return f"{self._name} can walk and fly. And eat {self._ration}."
+        return super().__str__() + f" And eat {self._ration}."
 
 
 class NonFlyingBird(FlyingBird):
