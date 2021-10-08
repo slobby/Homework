@@ -17,7 +17,8 @@ class FileManager:
         if self._file is not None:
             self._file.close()
         if exc_type:
-            print(exc_value)
+            print(exc_type, exc_value, exc_traceback)
+            return True
 
 
 if __name__ == "__main__":
@@ -25,3 +26,5 @@ if __name__ == "__main__":
     with fm as f:
         print(f.readline())
         f.write("Blabla")
+
+    print("HEY")
