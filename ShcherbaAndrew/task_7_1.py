@@ -27,4 +27,4 @@ if __name__ == "__main__":
         print(f.readline())
         f.write("Blabla")
 
-    print("HEY")
+    print("Continue here")
