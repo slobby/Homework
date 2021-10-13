@@ -1,4 +1,4 @@
 import requests
 
-response = requests.get("https://news.yahoo.com/rss/")
+response = requests.get()
 print(response.status_code)

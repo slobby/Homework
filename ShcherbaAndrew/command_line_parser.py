@@ -6,16 +6,20 @@ import argparse
 import sys
 from constants import VERSION
 from interfaces import ProgramArgs
+from interfaces import date_type
 
 
 def get_args() -> ProgramArgs:
-    """[summary]"""
+    """Get command line properties.
 
+    Returns:
+        ProgramArgs: An instance of ProgramArgs
+    """
     parser = argparse.ArgumentParser(
         description="Pure Python command-line \
 RSS reader."
     )
-    parser.add_argument("source", help="RSS URL")
+    parser.add_argument("source", nargs="?", default=None, help="RSS URL")
     parser.add_argument(
         "--version",
         action="version",
@@ -38,15 +42,30 @@ RSS reader."
         "--limit ",
         dest="limit",
         type=int,
-        default=sys.maxsize,
+        default=None,
         metavar="",
         help="Limit news topics (should be more then 0) if this parameter provided.",
     )
 
+    parser.add_argument(
+        "--date ",
+        dest="date",
+        default=None,
+        type=date_type,
+        metavar="",
+        help="Specify actual publishing date (should be in format earmonthday [20211005]) if this parameter provided.",
+    )
+
     args = parser.parse_args()
     programArgs = ProgramArgs(args)
-    if programArgs.limit < 1:
+    if programArgs.limit is not None and programArgs.limit < 1:
         sys.stdout.write(f"Wrong --limit param value - [{programArgs.limit}].\n")
+        parser.print_help()
+        parser.exit(1)
+    if programArgs.source is None and programArgs.date is None:
+        sys.stdout.write(
+            f"Param [sourse] is required if you don`t set param [--date].\n"
+        )
         parser.print_help()
         parser.exit(1)
 
