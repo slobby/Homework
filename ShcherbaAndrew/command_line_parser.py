@@ -3,10 +3,10 @@
 
 
 import argparse
-import sys
+import time
 from constants import VERSION
 from interfaces import ProgramArgs
-from interfaces import date_type
+from utils import print_message
 
 
 def get_args() -> ProgramArgs:
@@ -44,28 +44,26 @@ RSS reader."
         type=int,
         default=None,
         metavar="",
-        help="Limit news topics (should be more then 0) if this parameter provided.",
+        help="Limit news topics (should be more or equal to 0) if this parameter provided.",
     )
 
     parser.add_argument(
         "--date ",
         dest="date",
         default=None,
-        type=date_type,
+        type=lambda s: time.strptime(s, "%Y%m%d"),
         metavar="",
         help="Specify actual publishing date (should be in format earmonthday [20211005]) if this parameter provided.",
     )
 
     args = parser.parse_args()
     programArgs = ProgramArgs(args)
-    if programArgs.limit is not None and programArgs.limit < 1:
-        sys.stdout.write(f"Wrong --limit param value - [{programArgs.limit}].\n")
+    if programArgs.limit is not None and programArgs.limit < 0:
+        print_message(f"Wrong --limit param value - [{programArgs.limit}].\n")
         parser.print_help()
         parser.exit(1)
     if programArgs.source is None and programArgs.date is None:
-        sys.stdout.write(
-            f"Param [sourse] is required if you don`t set param [--date].\n"
-        )
+        print_message(f"Param [sourse] is required if you don`t set param [--date].\n")
         parser.print_help()
         parser.exit(1)
 

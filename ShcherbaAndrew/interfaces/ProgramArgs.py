@@ -14,7 +14,7 @@ class ProgramArgs:
     source: str = ""
     is_json: bool = False
     is_verbose: bool = False
-    limit: int = -1
+    limit: int = None
     date: time.struct_time = None
 
     def __init__(self, other: argparse.Namespace):
