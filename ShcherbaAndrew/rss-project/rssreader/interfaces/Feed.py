@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 """Feed module."""
 
-import json
-import time
 import uuid
 import jsonpickle
 from typing import List
-from .Image import ImageClass
 from .Entry import EntryClass
 
 jsonpickle.set_preferred_backend("json")
@@ -20,10 +17,7 @@ class FeedClass:
         self,
         title: str,
         link: str,
-        image: ImageClass,
         description: str,
-        published: str,
-        published_parsed: time.struct_time,
         entries: List[EntryClass],
         id: str = None,
     ):
@@ -33,19 +27,13 @@ class FeedClass:
             id (string): A UUID for this feed.
             title (string): The title of the feed.
             link (string): The primary link of this feed.
-            image ()
             description (string): The value of description for this entry.
-            published (string): The date this entry was first published, as a string in the same format as it was published in the original feed.
-            published_parsed (time.struct_time): The date this entry was first published, as a standard Python 9-tuple.
             entries (List[Entry]): A list of Entries
         """
         self.id: str = id if id else str(uuid.uuid4())
         self.title: str = title
         self.link: str = link
-        self.image: ImageClass = image
         self.description: str = description
-        self.published: str = published
-        self.published_parsed: time.struct_time = published_parsed
         self.entries: List[EntryClass] = entries
 
     def to_string(self) -> str:
@@ -57,9 +45,7 @@ class FeedClass:
         result = f"\n\n\
 Title: {self.title if self.title else ''}\n\n\
 Link: {self.link if self.link else ''}\n\
-Date: {self.published if self.published else ''}\n\
-Description: {self.description if self.description else ''}\n\
-Image: {self.image if self.image else ''}\n\n\n"
+Description: {self.description if self.description else ''}\n\n\n"
 
         for index, value in enumerate(self.entries):
             result += f"\nNews [{index+1}]\n{value.to_string()}"

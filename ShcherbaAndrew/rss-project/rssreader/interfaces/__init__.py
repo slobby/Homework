@@ -5,6 +5,6 @@
 from .ProgramArgs import ProgramArgs
 from .Feed import FeedClass
 from .Entry import EntryClass
-from .Image import ImageClass
+from .DBService import DBService
 
-__all__ = [ProgramArgs, FeedClass, EntryClass, ImageClass]
+__all__ = [ProgramArgs, FeedClass, EntryClass, DBService]

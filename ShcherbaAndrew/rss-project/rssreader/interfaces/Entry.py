@@ -2,8 +2,6 @@
 """Entry module."""
 
 
-import json
-import time
 import uuid
 from typing import List
 
@@ -18,7 +16,6 @@ class EntryClass:
         description: str,
         description_parsed: str,
         published: str,
-        published_parsed: time.struct_time,
         guid: str,
         id: str = None,
     ):
@@ -31,7 +28,6 @@ class EntryClass:
             description (string): The raw value of content for this entry.
             description_parsed (string): The value of content for this entry.
             published (string): The date this entry was first published, as a string in the same format as it was published in the original feed.
-            published_parsed (time.struct_time): The date this entry was first published, as a standard Python 9-tuple.
         """
         self.id: str = id if id else str(uuid.uuid4())
         self.title: str = title
@@ -39,7 +35,6 @@ class EntryClass:
         self.description: str = description
         self.description_parsed: str = description_parsed
         self.published: str = published
-        self.published_parsed: time.struct_time = published_parsed
         self.guid: str = guid if guid else str(self.id)
 
     def to_string(self) -> str:

@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """date_type module."""
 
+import os
 from typing import List, Union
 from bs4.element import NavigableString, Tag
-from rssreader.utils import date_type
 from rssreader.app_logger import get_logger
 import requests
 from bs4 import BeautifulSoup
@@ -14,8 +14,8 @@ from rssreader.errors import (
     EmptyXMLTagException,
     GetFeedException,
 )
-from rssreader.interfaces import ProgramArgs, ImageClass, EntryClass, FeedClass
-from rssreader.constants import TIMEOUT, TAG_RE
+from rssreader.interfaces import ProgramArgs, EntryClass, FeedClass, DBService
+from rssreader.constants import TIMEOUT, TAG_RE, DB_FILE
 
 logger = get_logger(__name__)
 
@@ -29,9 +29,13 @@ def get_feeds(params: ProgramArgs) -> List[FeedClass]:
     Returns:
         List[FeedClass]: List of FeedClass entities
     """
+    db_file = os.path.join(os.path.split(__file__)[0], DB_FILE)
+    
+    db_service = DBService(db_file)
     feeds = []
     if params.date is None:
         feeds.append(get_feed_from_URL(params))
+        db_service.insert(feeds)
     else:
         feeds.extend(get_feed_from_storage(params))
     return feeds
@@ -100,22 +104,11 @@ def parse_to_feed(req: requests.Response) -> Union[FeedClass, None]:
         title = extract_string_from_tag(channel_tag, "title", req.url)
         link = extract_string_from_tag(channel_tag, "link", req.url)
         description = extract_string_from_tag(channel_tag, "description", req.url)
-        published = extract_string_from_tag(channel_tag, "pubDate", req.url)
-        published_parsed = None
-        if published:
-            published_parsed = date_type(
-                published,
-                "%a, %d %b %Y %H:%M:%S %z",
-            )
-        image = parse_to_image(channel_tag.image, req.url)
         entries = parse_items(channel_tag.find_all("item"), req.url)
         feed = FeedClass(
             title=title,
             link=link,
-            image=image,
             description=description,
-            published=published,
-            published_parsed=published_parsed,
             entries=entries,
         )
     except EmptyXMLTagException:
@@ -123,37 +116,6 @@ def parse_to_feed(req: requests.Response) -> Union[FeedClass, None]:
     else:
         return feed
     raise WrongXMLContetException(sourse=req.url)
-
-
-def parse_to_image(
-    image_tag: Union[Tag, None], req_url: str
-) -> Union[ImageClass, None]:
-    """Parse rss tag <image> to ImageClass entity.
-
-    Args:
-        image_tag (Union[Tag, None]): suggested tag <image>
-        req_url (str): xml url
-
-    Returns:
-        ImageClass: ImageClass entity
-    """
-    image = None
-    if image_tag is not None:
-        title = extract_string_from_tag(image_tag, "title", req_url)
-        url = extract_string_from_tag(image_tag, "url", req_url)
-        link = extract_string_from_tag(image_tag, "link", req_url)
-        width = extract_string_from_tag(image_tag, "width", req_url)
-        height = extract_string_from_tag(image_tag, "height", req_url)
-        description = extract_string_from_tag(image_tag, "description", req_url)
-        image = ImageClass(
-            title=title,
-            url=url,
-            link=link,
-            width=width,
-            height=height,
-            description=description,
-        )
-    return image
 
 
 def parse_items(
@@ -178,12 +140,6 @@ def parse_items(
             if description:
                 description_parsed = remove_tags(description)
             published = extract_string_from_tag(item, "pubDate", req_url)
-            published_parsed = None
-            if published:
-                published_parsed = date_type(
-                    published,
-                    "%a, %d %b %Y %H:%M:%S %z",
-                )
             guid = extract_string_from_tag(item, "guid", req_url)
             entry = EntryClass(
                 title=title,
@@ -191,7 +147,6 @@ def parse_items(
                 description=description,
                 description_parsed=description_parsed,
                 published=published,
-                published_parsed=published_parsed,
                 guid=guid,
             )
             entries.append(entry)

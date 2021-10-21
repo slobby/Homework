@@ -18,14 +18,6 @@ PROTOCOL_CSV = "protocol.csv"
 # enviroments
 RSS_VERBOSE = "RSS_VERBOSE"
 
+# DB
+DB_FILE = "db/db.pickle"
 
-NO = "Нет"
-ERROR_CELL = "ERROR_CELL"
-MERGED = "MERGED"
-EMPTY = ""
-
-IS_FILLED = True
-TABLE1_COL_NUM = 10
-TABLE2_COL_NUM = 4
-TABLE4_COL_NUM = 23
-TABLE10_COL_NUM = 5
