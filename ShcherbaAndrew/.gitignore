@@ -1,0 +1,5 @@
+protocol.csv
+.vscode
+__pycache__
+rss-project/build
+rss-project/rssreader*

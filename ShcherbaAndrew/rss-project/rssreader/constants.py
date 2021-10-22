@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""COnstats module."""
+"""Constats module."""
 
 # application
 import re
@@ -19,5 +19,5 @@ PROTOCOL_CSV = "protocol.csv"
 RSS_VERBOSE = "RSS_VERBOSE"
 
 # DB
-DB_FILE = "db/db.pickle"
-
+DB_FILE = "db.pickle"
+DB_DIR = "db"

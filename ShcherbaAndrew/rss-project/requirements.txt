@@ -1,0 +1,5 @@
+beautifulsoup4==4.10.0
+colorama==0.4.4
+jsonpickle==2.0.0
+lxml==4.6.3
+requests==2.26.0

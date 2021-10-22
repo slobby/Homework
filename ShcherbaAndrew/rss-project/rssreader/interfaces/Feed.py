@@ -15,6 +15,7 @@ class FeedClass:
 
     def __init__(
         self,
+        source: str,
         title: str,
         link: str,
         description: str,
@@ -29,8 +30,10 @@ class FeedClass:
             link (string): The primary link of this feed.
             description (string): The value of description for this entry.
             entries (List[Entry]): A list of Entries
+            source (str): raw source
         """
         self.id: str = id if id else str(uuid.uuid4())
+        self.source: str = source
         self.title: str = title
         self.link: str = link
         self.description: str = description

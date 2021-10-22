@@ -9,7 +9,9 @@ setup(
     name="rssreader",
     version="1.0",
     author="Andrew Shcherba",
+    include_package_data=True,
     packages=find_packages(include=["rssreader", "rssreader.*"]),
+    package_data={'rssreader':['db/*']},
     long_description=open(join(dirname(__file__), "README.md")).read(),
     long_description_content_type="text/markdown",
     install_requires=[

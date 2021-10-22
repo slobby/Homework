@@ -15,7 +15,7 @@ from rssreader.errors import (
     GetFeedException,
 )
 from rssreader.interfaces import ProgramArgs, EntryClass, FeedClass, DBService
-from rssreader.constants import TIMEOUT, TAG_RE, DB_FILE
+from rssreader.constants import TIMEOUT, TAG_RE
 
 logger = get_logger(__name__)
 
@@ -29,15 +29,13 @@ def get_feeds(params: ProgramArgs) -> List[FeedClass]:
     Returns:
         List[FeedClass]: List of FeedClass entities
     """
-    db_file = os.path.join(os.path.split(__file__)[0], DB_FILE)
-    
-    db_service = DBService(db_file)
+    db_service = DBService()
     feeds = []
     if params.date is None:
         feeds.append(get_feed_from_URL(params))
         db_service.insert(feeds)
     else:
-        feeds.extend(get_feed_from_storage(params))
+        feeds.extend(get_feed_from_storage(db_service, params))
     return feeds
 
 
@@ -57,7 +55,8 @@ def get_feed_from_URL(params: ProgramArgs) -> Union[FeedClass, None]:
     requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
     response = None
     try:
-        response = requests.get(url=params.source, timeout=TIMEOUT, verify=False)
+        response = requests.get(
+            url=params.source, timeout=TIMEOUT, verify=False)
         if response is None:
             raise EmptyHTTPResponseException()
     except EmptyHTTPResponseException:
@@ -73,13 +72,12 @@ def get_feed_from_URL(params: ProgramArgs) -> Union[FeedClass, None]:
     raise GetFeedException(sourse=params.source)
 
 
-def get_feed_from_storage(params: ProgramArgs):
-    """Unrealised.
-
-    Args:
-        params (ProgramArgs): [description]
-    """
-    pass
+def get_feed_from_storage(db: DBService, params: ProgramArgs):
+    result = DBService.find_by_date(db.find_all(), params.date)
+    if params.date and params.source:
+        return DBService.find_by_url(result, params.source)
+    else:
+        return result
 
 
 def parse_to_feed(req: requests.Response) -> Union[FeedClass, None]:
@@ -103,16 +101,19 @@ def parse_to_feed(req: requests.Response) -> Union[FeedClass, None]:
             raise EmptyXMLTagException()
         title = extract_string_from_tag(channel_tag, "title", req.url)
         link = extract_string_from_tag(channel_tag, "link", req.url)
-        description = extract_string_from_tag(channel_tag, "description", req.url)
+        description = extract_string_from_tag(
+            channel_tag, "description", req.url)
         entries = parse_items(channel_tag.find_all("item"), req.url)
         feed = FeedClass(
+            source=req.url,
             title=title,
             link=link,
             description=description,
             entries=entries,
         )
     except EmptyXMLTagException:
-        logger.error(f"Couldn`t found <chanel> tag in xml, from source [{req.url}]")
+        logger.error(
+            f"Couldn`t found <chanel> tag in xml, from source [{req.url}]")
     else:
         return feed
     raise WrongXMLContetException(sourse=req.url)

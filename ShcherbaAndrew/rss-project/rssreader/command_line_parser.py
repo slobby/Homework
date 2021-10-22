@@ -24,19 +24,19 @@ RSS reader."
         "--version",
         action="version",
         version=f"Version {VERSION}",
-        help="Print version info",
+        help="print version info",
     )
     parser.add_argument(
         "--json",
         dest="is_json",
         action="store_true",
-        help="Print result as JSON in stdout",
+        help="print result as JSON in stdout",
     )
     parser.add_argument(
         "--verbose",
         dest="is_verbose",
         action="store_true",
-        help="Outputs verbose status messages",
+        help="outputs verbose status messages",
     )
     parser.add_argument(
         "--limit ",
@@ -44,7 +44,7 @@ RSS reader."
         type=int,
         default=None,
         metavar="",
-        help="Limit news topics (should be more or equal to 0) if this parameter provided.",
+        help="limit news topics (should be more or equal to 0) if this parameter provided.",
     )
 
     parser.add_argument(
@@ -53,7 +53,7 @@ RSS reader."
         default=None,
         type=lambda s: time.strptime(s, "%Y%m%d"),
         metavar="",
-        help="Specify actual publishing date (should be in format yearmonthday [20211005]) if this parameter provided.",
+        help="specify actual publishing date (should be in format yearmonthday [20211005]) if this parameter provided.",
     )
 
     args = parser.parse_args()
