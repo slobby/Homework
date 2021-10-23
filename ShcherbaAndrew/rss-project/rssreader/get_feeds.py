@@ -15,6 +15,7 @@ from rssreader.errors import (
     GetFeedException,
 )
 from rssreader.interfaces import ProgramArgs, EntryClass, FeedClass, DBService
+from rssreader.utils.trunc_feed_list import trunc_feed_list
 from rssreader.constants import TIMEOUT, TAG_RE
 
 logger = get_logger(__name__)
@@ -36,6 +37,16 @@ def get_feeds(params: ProgramArgs) -> List[FeedClass]:
         db_service.insert(feeds)
     else:
         feeds.extend(get_feed_from_storage(db_service, params))
+
+    total_news_amount = sum((len(item.entries) for item in feeds), 0)
+
+    news_amount = (
+        params.limit
+        if params.limit is not None and params.limit < total_news_amount
+        else total_news_amount
+    )
+    if news_amount != 0:
+        feeds = trunc_feed_list(feeds, news_amount)
     return feeds
 
 
@@ -72,7 +83,16 @@ def get_feed_from_URL(params: ProgramArgs) -> Union[FeedClass, None]:
     raise GetFeedException(sourse=params.source)
 
 
-def get_feed_from_storage(db: DBService, params: ProgramArgs):
+def get_feed_from_storage(db: DBService, params: ProgramArgs) -> List[FeedClass]:
+    """Get feeds from storage
+
+    Args:
+        db (DBService): DB service
+        params (ProgramArgs): app params
+
+    Returns:
+        (List[FeedClass]): feeds
+    """
     result = DBService.find_by_date(db.find_all(), params.date)
     if params.date and params.source:
         return DBService.find_by_url(result, params.source)
@@ -142,6 +162,8 @@ def parse_items(
                 description_parsed = remove_tags(description)
             published = extract_string_from_tag(item, "pubDate", req_url)
             guid = extract_string_from_tag(item, "guid", req_url)
+            enclosure = extract_atr_from_tag(item, "enclosure", "url", req_url)
+
             entry = EntryClass(
                 title=title,
                 link=link,
@@ -149,6 +171,7 @@ def parse_items(
                 description_parsed=description_parsed,
                 published=published,
                 guid=guid,
+                enclosure=enclosure
             )
             entries.append(entry)
     return entries
@@ -183,6 +206,36 @@ def extract_string_from_tag(parent_tag: Tag, name: str, url: str) -> Union[str, 
             f"Couldn`t found expected <{name}> tag within parent tag <{parent_tag.name}> in xml, from source [{url}]"
         )
     return string
+
+
+def extract_atr_from_tag(parent_tag: Tag, name: str, atr: str, url: str) -> Union[str, None]:
+    """Exctract Atribute from Tag, and convert to unicode.
+
+    Args:
+        parent_tag (Tag): parent tag
+        name (str): suggested tag name
+        url (str): xml url
+
+    Returns:
+        Union[str, None]: exctracted string, or None if couldn`t exctracted, or target_tag is None
+    """
+    atribute = None
+    # target_tags = parent_tag.find_all(name)
+    for inner_tag in parent_tag.children:
+        if isinstance(inner_tag, Tag):
+            if inner_tag.name == name and inner_tag.prefix is None:
+                atribute = inner_tag.get(atr, None)
+                if atribute is not None:
+                    break
+                else:
+                    logger.warning(
+                        f"Couldn`t extract content from <{inner_tag.name}> in xml, from source [{url}]"
+                    )
+    if atribute is None:
+        logger.warning(
+            f"Couldn`t found expected [{atr}] atribute in <{name}> tag within parent tag <{parent_tag.name}> in xml, from source [{url}]"
+        )
+    return atribute
 
 
 def remove_tags(text: str) -> str:

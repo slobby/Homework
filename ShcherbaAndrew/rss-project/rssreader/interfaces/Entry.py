@@ -17,6 +17,7 @@ class EntryClass:
         description_parsed: str,
         published: str,
         guid: str,
+        enclosure: str,
         id: str = None,
     ):
         """Create entity.
@@ -35,6 +36,7 @@ class EntryClass:
         self.description: str = description
         self.description_parsed: str = description_parsed
         self.published: str = published
+        self.enclosure: str = enclosure
         self.guid: str = guid if guid else str(self.id)
 
     def to_string(self) -> str:
@@ -47,5 +49,6 @@ class EntryClass:
 Title  : {self.title if self.title else ''}\n\
 Link   : {self.link if self.link else ''}\n\
 Date   : {self.published if self.published else ''}\n\
+Media  : { self.enclosure if self.enclosure else ''}\n\
 Content: {self.description_parsed if self.description_parsed else ''}\n\
 \n"

@@ -16,6 +16,7 @@ class ProgramArgs:
     is_verbose: bool = False
     limit: int = None
     date: time.struct_time = None
+    to_html: str = ""
 
     def __init__(self, other: argparse.Namespace):
         """Initialise new ProgramArgs.
@@ -30,6 +31,8 @@ class ProgramArgs:
         )
         self.limit = other.limit if "limit" in other else ProgramArgs.limit
         self.date = other.date if "date" in other else ProgramArgs.date
+        self.to_html = other.to_html if "to_html" in other else ProgramArgs.to_html
+        self.set_verbose_mode()
 
     def set_verbose_mode(self):
         """Set enviroment property RSS_VERBOSE."""

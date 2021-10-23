@@ -32,7 +32,6 @@ class DBService():
 
     def seeds(self):
         """Seed new database."""
-        os.path
         with open(self.file, 'wb') as f:
             pickle.dump([], f)
 

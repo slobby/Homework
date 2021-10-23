@@ -5,7 +5,7 @@ from sys import path
 from os.path import dirname as dir
 
 path.append(dir(path[0]))
-    # __package__ = "rssreader"
+# __package__ = "rssreader"
 
 
 def main() -> None:
@@ -17,13 +17,15 @@ def main() -> None:
 
     from rssreader.app_logger import get_logger
     from rssreader.get_feeds import get_feeds
-    from rssreader.utils import print_to_output
+    from rssreader.utils import print_to_output, html_converter
 
     logger = get_logger(__name__)
 
     try:
         feeds = get_feeds(params)
         print_to_output(feeds, params)
+        if params.to_html:
+            html_converter(feeds, params.to_html)
     except Exception as ex:
         if hasattr(ex, "message"):
             print(ex.message)
