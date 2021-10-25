@@ -2,7 +2,7 @@
 """html converter module."""
 
 from typing import List
-from yattag import Doc
+from yattag import Doc, indent
 from rssreader.interfaces import FeedClass
 from rssreader.constants import ENCODING_OUT
 
@@ -57,7 +57,7 @@ def html_converter(feeds: List[FeedClass], path: str) -> None:
                                         with tag("p", klass="lead"):
                                             doc.asis(entry.description)
 
-    result = doc.getvalue()
+    result = indent(doc.getvalue())
     with open(path, 'w', encoding=ENCODING_OUT) as f:
         f.write(result)
     return

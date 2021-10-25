@@ -77,7 +77,8 @@ def get_feed_from_URL(params: ProgramArgs) -> Union[FeedClass, None]:
             f"There was an exception that occurred while handling [{params.source}]. Exception - {ex}"
         )
     except Exception as ex:
-        print(ex)
+        logger.critical(
+            f"There was unexpected exception that occurred while handling [{params.source}]", stack_info=True)
     else:
         return parse_to_feed(response)
     raise GetFeedException(sourse=params.source)
@@ -163,6 +164,7 @@ def parse_items(
             published = extract_string_from_tag(item, "pubDate", req_url)
             guid = extract_string_from_tag(item, "guid", req_url)
             enclosure = extract_atr_from_tag(item, "enclosure", "url", req_url)
+            content = extract_atr_from_tag(item, "content", "url", req_url)
 
             entry = EntryClass(
                 title=title,
@@ -171,7 +173,8 @@ def parse_items(
                 description_parsed=description_parsed,
                 published=published,
                 guid=guid,
-                enclosure=enclosure
+                enclosure=enclosure,
+                content=content
             )
             entries.append(entry)
     return entries
@@ -223,7 +226,7 @@ def extract_atr_from_tag(parent_tag: Tag, name: str, atr: str, url: str) -> Unio
     # target_tags = parent_tag.find_all(name)
     for inner_tag in parent_tag.children:
         if isinstance(inner_tag, Tag):
-            if inner_tag.name == name and inner_tag.prefix is None:
+            if inner_tag.name == name:
                 atribute = inner_tag.get(atr, None)
                 if atribute is not None:
                     break

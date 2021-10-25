@@ -17,7 +17,7 @@ def main() -> None:
 
     from rssreader.app_logger import get_logger
     from rssreader.get_feeds import get_feeds
-    from rssreader.utils import print_to_output, html_converter
+    from rssreader.utils import print_to_output, html_converter, fb2_converter
 
     logger = get_logger(__name__)
 
@@ -26,6 +26,8 @@ def main() -> None:
         print_to_output(feeds, params)
         if params.to_html:
             html_converter(feeds, params.to_html)
+        if params.to_fb2:
+            fb2_converter(feeds, params.to_fb2)
     except Exception as ex:
         if hasattr(ex, "message"):
             print(ex.message)

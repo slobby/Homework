@@ -5,6 +5,7 @@
 import argparse
 import os
 import time
+from typing import Callable
 from rssreader.constants import VERSION
 from rssreader.interfaces import ProgramArgs
 from rssreader.utils import print_message
@@ -61,9 +62,18 @@ RSS reader."
         "--to-html ",
         dest="to_html",
         default=None,
-        type=check_path,
+        type=check_path_html_ext,
         metavar="",
         help="set (path)filename of created html file.",
+    )
+
+    parser.add_argument(
+        "--to-fb2 ",
+        dest="to_fb2",
+        default=None,
+        type=check_path_fb2_ext,
+        metavar="",
+        help="set (path)filename of created fb2 file.",
     )
 
     args = parser.parse_args()
@@ -81,7 +91,7 @@ RSS reader."
     return programArgs
 
 
-def check_path(path: str) -> str:
+def check_path(ext: str, path: str) -> str:
     """Check path.
 
     Args:
@@ -96,13 +106,25 @@ def check_path(path: str) -> str:
     if path:
         abs_path = os.path.abspath(path)
         _, file = os.path.split(abs_path)
-        if file.endswith(".html"):
+        if file.endswith(f".{ext}"):
             if os.path.isdir(os.path.dirname(abs_path)):
                 return abs_path
         else:
             print_message(
-                f"Error! Input filename [{file}] has to have '.html' extention.\n")
+                f"Error! Input filename [{file}] has to have '.{ext}' extention.\n")
             raise ValueError
     else:
-        print_message(f"Error! Set (path)filename for output html file.\n")
+        print_message(f"Error! Set (path)filename for output {ext} file.\n")
         raise ValueError
+
+
+def check_path_set_ext(ext: str):
+    def decorator(func: Callable):
+        def warapper(*args, **kwargs):
+            return func(ext, *args, **kwargs)
+        return warapper
+    return decorator
+
+
+check_path_html_ext = check_path_set_ext("html")(check_path)
+check_path_fb2_ext = check_path_set_ext("fb2")(check_path)
