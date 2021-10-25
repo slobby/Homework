@@ -84,7 +84,7 @@ def get_feed_from_URL(params: ProgramArgs) -> Union[FeedClass, None]:
 
 
 def get_feed_from_storage(db: DBService, params: ProgramArgs) -> List[FeedClass]:
-    """Get feeds from storage
+    """Get feeds from storage.
 
     Args:
         db (DBService): DB service
