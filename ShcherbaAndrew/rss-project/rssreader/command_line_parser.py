@@ -84,7 +84,7 @@ RSS reader."
         parser.exit(1)
     if programArgs.source is None and programArgs.date is None:
         print_message(
-            f"Param [sourse] is required if you don`t set param [--date].\n")
+            f"Param [source] is required if you don`t set param [--date].\n")
         parser.print_help()
         parser.exit(1)
 
@@ -119,6 +119,11 @@ def check_path(ext: str, path: str) -> str:
 
 
 def check_path_set_ext(ext: str):
+    """Create decorator for check path function.
+
+    Args:
+        ext (str): file extention
+    """
     def decorator(func: Callable):
         def warapper(*args, **kwargs):
             return func(ext, *args, **kwargs)

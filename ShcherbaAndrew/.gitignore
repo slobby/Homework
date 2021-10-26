@@ -1,5 +1,10 @@
-protocol.csv
-.vscode
 __pycache__
 *.html
+*.fb2
 *.pickle
+/rss-project/*
+!/rss-project/rssreader
+/rss-project/rssreader/*.csv
+/rss-project/rssreader/__pycache__
+!/rss-project/README.md
+/rss-project/setup.py

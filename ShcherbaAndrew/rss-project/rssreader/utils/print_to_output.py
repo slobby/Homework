@@ -8,6 +8,7 @@ from .feeds_to_string import feeds_to_string
 from .trunc_feed_list import trunc_feed_list
 
 from rssreader.interfaces import FeedClass, ProgramArgs
+from rssreader.errors import ZeroLimitAmountException
 
 
 def print_to_output(
@@ -23,8 +24,7 @@ def print_to_output(
         file = sys.stdout
 
     if params.limit == 0:
-        file.write("Due you set '--limit' to 0, the result is null.")
-        return
+        raise ZeroLimitAmountException
     total_news_amount = sum((len(item.entries) for item in list_of_feed), 0)
 
     news_amount = (

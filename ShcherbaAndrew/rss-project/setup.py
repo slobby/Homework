@@ -19,6 +19,7 @@ setup(
         "jsonpickle==2.0.0",
         "lxml==4.6.3",
         "requests==2.26.0",
+        "yattag==1.14.0"
     ],
     entry_points={"console_scripts": ["rss_reader=rssreader.rss_reader:main"]},
 )
