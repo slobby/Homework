@@ -3,6 +3,7 @@ __pycache__
 *.fb2
 *.pickle
 /rss-project/*
+!/rss-project/tests
 !/rss-project/rssreader
 /rss-project/rssreader/*.csv
 /rss-project/rssreader/__pycache__

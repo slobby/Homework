@@ -206,7 +206,7 @@ def extract_string_from_tag(parent_tag: Tag, name: str, url: str) -> Union[str, 
                     )
     if string is None:
         logger.warning(
-            f"Couldn`t found expected <{name}> tag within parent tag <{parent_tag.name}> in xml, from source [{url}]"
+            f"Couldn`t found expected <{name}> tag withing parent tag <{parent_tag.name}> in xml, from source [{url}]"
         )
     return string
 

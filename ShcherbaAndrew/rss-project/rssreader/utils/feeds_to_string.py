@@ -3,7 +3,7 @@
 
 import sys
 from typing import List
-from rssreader.interfaces import FeedClass, ProgramArgs
+from rssreader.interfaces import FeedClass
 
 
 def feeds_to_string(list_of_feed: List[FeedClass]) -> str:

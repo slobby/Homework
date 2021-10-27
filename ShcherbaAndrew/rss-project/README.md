@@ -1,85 +1,99 @@
 # Python RSS-reader
 
-RSS reader is a command-line utility which receives RSS URL and prints results in human-readable format.
+## Iteration 3
+
+RSS reader is a command-line utility which receives RSS URL and:
+
+- parse RSS page and display results as a human style format or as a json
+- save and extract recieved feeds in/from file
 
 ### Requirements
+
 - #### OS
- - Windows
- - Linux
+- Windows
+- Linux
 - ### Language
- - Python 3.9
+- Python 3.9
+
+### How to install:
+
+#### without installation
+
+- Clone this repo
+- From dir **_rss-project_** install required packages :
+  `pip install -r requirements.txt`
+
+#### with installation
+
+- From dir **_rss-project_** run commands:
+- build a wheel file, by running commands:
+
+`pip install wheel` - install a wheel
+
+`py setup.py bdist_wheel` - build a wheel file
+
+`pip install dist/rss_reader-....whl` - install package
 
 ### How to use:
 
-In console input:
- - for Windows: `py rss_reader.py "https://news.yahoo.com/rss/"`
- - for Linux: `python3 rss_reader.py "https://news.yahoo.com/rss/"`
+#### with installation
 
+In any path, in console input:`rss_reader "https://news.yahoo.com/rss/"`
+
+#### without installation
+
+Go to dir **_rss-project/rssreader_**
+In console input:
+
+- for Windows: `py rss_reader.py "https://news.yahoo.com/rss/"`
+- for Linux: `python3 rss_reader.py "https://news.yahoo.com/rss/"`
 
 ```
-usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit ] [--date ] [source]
+usage: rss_reader.py [-h] [--version] [--json] [--verbose] [--limit ] [--date ] [--to-html ] [--to-fb2 ] [source]
 
 Pure Python command-line RSS reader.
 
 positional arguments:
-  source      RSS URL
+  source       RSS URL
 
 optional arguments:
-  -h, --help  show this help message and exit
-  --version   Print version info
-  --json      Print result as JSON in stdout
-  --verbose   Outputs verbose status messages
-  --limit     Limit news topics (should be more or equal to 0) if this parameter provided.
-  --date      Specify actual publishing date (should be in format yearmonthday [20211005]) if this parameter provided.
-  ```
+  -h, --help   show this help message and exit
+  --version    print version info
+  --json       print result as JSON in stdout
+  --verbose    outputs verbose status messages
+  --limit      limit news topics (should be more or equal to 0) if this parameter provided.
+  --date       specify actual publishing date (should be in format yearmonthday [20211005]) if this parameter
+               provided.
+  --to-html    set (path)filename of created html file.
+  --to-fb2     set (path)filename of created fb2 file.
+```
 
 ### Formats of output
+
 #### String format
 
-Array[Feed] \
-[Feed]\
-|-Title: Блог Onlner\
-|-Link: https://blog.onliner.by/ \
-|-Date: Thu, 06 May 2021 12:02:26 +0300\
-|-Description: Блог Onlner\
-|-[IMAGE]\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Image: https://content.onliner.by/pic/logo.png \
-|-[Array[Entries]] \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-[Entry]\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Title  : МТБанк проводит технические работы с 08.05 по 11.05\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Link   : https://blog.onliner.by/2021/05/06/mtbank-provodit-texnicheskie-raboty-s-08-05-po-11-05 \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Date   : Thu, 06 May 2021 12:02:26 +0300 \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Content: С 8 по 11 мая 2021 (включительно) «МТБанк» проводит
+Title: RSS Р‘РµР»РўРђ
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-[Entry]\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Title  : МТБанк проводит технические работы с 08.05 по 11.05\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Link   : https://blog.onliner.by/2021/05/06/mtbank-provodit-texnicheskie-raboty-s-08-05-po-11-05 \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Date   : Thu, 06 May 2021 12:02:26 +0300 \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Content: С 8 по 11 мая 2021 (включительно) «МТБанк» проводит
+Link: https://www.belta.by/
+Description: РќРѕРІРѕСЃС‚Рё РІ Р‘РµР»Р°СЂСѓСЃРё
 
-[Feed]\
-|-Title: Блог Onlner\
-|-Link: https://blog.onliner.by/ \
-|-Date: Thu, 06 May 2021 12:02:26 +0300\
-|-Description: Блог Onlner\
-|-[IMAGE]\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Image: https://content.onliner.by/pic/logo.png \
-|-[Array[Entries]] \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-[Entry]\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Title  : МТБанк проводит технические работы с 08.05 по 11.05\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Link   : https://blog.onliner.by/2021/05/06/mtbank-provodit-texnicheskie-raboty-s-08-05-po-11-05 \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Date   : Thu, 06 May 2021 12:02:26 +0300 \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Content: С 8 по 11 мая 2021 (включительно) «МТБанк» проводит
+News [1]
 
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-[Entry]\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Title  : МТБанк проводит технические работы с 08.05 по 11.05\
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Link   : https://blog.onliner.by/2021/05/06/mtbank-provodit-texnicheskie-raboty-s-08-05-po-11-05 \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Date   : Thu, 06 May 2021 12:02:26 +0300 \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|-Content: С 8 по 11 мая 2021 (включительно) «МТБанк» проводит
+Title : Р¤РћРўРћР¤РђРљРў: Р’ Р“РѕРјРµР»Рµ РѕС‚РєСЂС‹С‚ РїРµСЂРІС‹Р№ "РњР°РіР°Р·РёРЅ 101"
+
+Link : https://www.belta.by/regions/view/fotofakt-v-gomele-otkryt-pervyj-magazin-101-465897-2021/
+
+Date : Fri, 22 Oct 2021 15:09:00 +0300
+
+Content: Р’ С†РµР»СЏС… РїРѕРІС‹С€РµРЅРёСЏ РѕР±РµСЃРїРµС‡РµРЅРёСЏ РїРѕР¶Р°СЂРЅРѕР№ Р±РµР·РѕРїР°СЃРЅРѕСЃС‚Рё, С€РёСЂРѕРєРѕРјР°СЃС€С‚Р°Р±РЅРѕР№ СЂР°Р±РѕС‚С‹ РїРѕ РїСЂРµРґСѓРїСЂРµР¶РґРµРЅРёСЋ
+
+РІРѕР·РЅРёРєРЅРѕРІРµРЅРёСЏ РїРѕР¶Р°СЂРѕРІ Рё Р±РµР·РѕРїР°СЃРЅРѕСЃС‚Рё Р¶РёР·РЅРµРґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё РІ Р“РѕРјРµР»Рµ РѕС‚РєСЂС‹С‚ РїРµСЂРІС‹Р№ С‚РѕСЂРіРѕРІС‹Р№ РѕР±СЉРµРєС‚ "РњР°РіР°Р·РёРЅ 101".
 
 #### JSON Schema
+
 ```
 {
+  {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "array",
   "items": [
@@ -89,80 +103,17 @@ Array[Feed] \
         "id": {
           "type": "string"
         },
+        "source": {
+          "type": "string"
+        },
         "title": {
           "type": "string"
         },
         "link": {
           "type": "string"
         },
-        "image": {
-          "type": "object",
-          "properties": {
-            "title": {
-              "type": "string"
-            },
-            "url": {
-              "type": "string"
-            },
-            "link": {
-              "type": "string"
-            },
-            "width": {
-              "type": "string"
-            },
-            "height": {
-              "type": "string"
-            },
-            "description": {
-              "type": "null"
-            }
-          },
-          "required": [
-            "title",
-            "url",
-            "link",
-            "width",
-            "height",
-            "description"
-          ]
-        },
         "description": {
           "type": "string"
-        },
-        "published": {
-          "type": "string"
-        },
-        "published_parsed": {
-          "type": "array",
-          "items": [
-            {
-              "type": "integer"
-            },
-            {
-              "type": "integer"
-            },
-            {
-              "type": "integer"
-            },
-            {
-              "type": "integer"
-            },
-            {
-              "type": "integer"
-            },
-            {
-              "type": "integer"
-            },
-            {
-              "type": "integer"
-            },
-            {
-              "type": "integer"
-            },
-            {
-              "type": "integer"
-            }
-          ]
         },
         "entries": {
           "type": "array",
@@ -188,38 +139,6 @@ Array[Feed] \
                 "published": {
                   "type": "string"
                 },
-                "published_parsed": {
-                  "type": "array",
-                  "items": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    }
-                  ]
-                },
                 "guid": {
                   "type": "string"
                 }
@@ -231,75 +150,6 @@ Array[Feed] \
                 "description",
                 "description_parsed",
                 "published",
-                "published_parsed",
-                "guid"
-              ]
-            },
-            {
-              "type": "object",
-              "properties": {
-                "id": {
-                  "type": "string"
-                },
-                "title": {
-                  "type": "string"
-                },
-                "link": {
-                  "type": "string"
-                },
-                "description": {
-                  "type": "string"
-                },
-                "description_parsed": {
-                  "type": "string"
-                },
-                "published": {
-                  "type": "string"
-                },
-                "published_parsed": {
-                  "type": "array",
-                  "items": [
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    },
-                    {
-                      "type": "integer"
-                    }
-                  ]
-                },
-                "guid": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "id",
-                "title",
-                "link",
-                "description",
-                "description_parsed",
-                "published",
-                "published_parsed",
                 "guid"
               ]
             }
@@ -308,21 +158,13 @@ Array[Feed] \
       },
       "required": [
         "id",
+        "source",
         "title",
         "link",
-        "image",
         "description",
-        "published",
-        "published_parsed",
         "entries"
       ]
     }
   ]
 }
 ```
-
-### How to install
-
-Download this repo
-In root dir run in command line:
-`py start.py `

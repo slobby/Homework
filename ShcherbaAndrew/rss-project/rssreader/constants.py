@@ -5,7 +5,7 @@
 import re
 
 
-VERSION = "1.1"
+VERSION = "1.5"
 TIMEOUT = 5
 TAG_RE = re.compile(r"<[^>]+>|&nbsp;")
 
@@ -28,5 +28,5 @@ OUTPUT = "output"
 # HTML
 HTML_FILE = "feeds.html"
 
-# PDF
-HTML_FILE = "feeds.pdf"
+# FB2
+FB2_FILE = "feeds.fb2"
