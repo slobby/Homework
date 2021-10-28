@@ -1,6 +1,6 @@
 # Python RSS-reader
 
-## Iteration 3
+## Iteration 5
 
 RSS reader is a command-line utility which receives RSS URL and:
 
@@ -168,3 +168,13 @@ Content: В целях повышения обеспечения пожарно�
   ]
 }
 ```
+
+### Testing
+
+Due this [pypa/setuptools#1684](https://pypi.org/project/pytest-runner/#:~:text=pypa/setuptools%231684.) to run tests, please, install dependencies separately :
+
+`pip install pytest pytest-cov`
+
+Then in Homework\ShcherbaAndrew\ run the following command:
+
+`py -m pytest --cov=rssreader tests/`

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """date_type module."""
 
-import os
 from typing import List, Union
 from bs4.element import NavigableString, Tag
 from rssreader.app_logger import get_logger
@@ -67,7 +66,7 @@ def get_feed_from_URL(params: ProgramArgs) -> Union[FeedClass, None]:
     response = None
     try:
         response = requests.get(
-            url=params.source, timeout=TIMEOUT, verify=False)
+            url=params.source, timeout=TIMEOUT, verify=False, headers={'User-agent': 'rss-reader'})
         if response is None:
             raise EmptyHTTPResponseException()
     except EmptyHTTPResponseException:

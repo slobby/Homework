@@ -18,12 +18,14 @@ def main() -> None:
     from rssreader.app_logger import get_logger
     from rssreader.get_feeds import get_feeds
     from rssreader.utils import print_to_output, html_converter, fb2_converter
+    from rssreader.interfaces import Colors
 
     logger = get_logger(__name__)
 
     try:
+        cl = Colors()
         feeds = get_feeds(params)
-        print_to_output(feeds, params)
+        print_to_output(feeds, params, cl.COLOR_STREAM)
         if params.to_html:
             html_converter(feeds, params.to_html)
         if params.to_fb2:

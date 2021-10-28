@@ -18,6 +18,7 @@ PROTOCOL_CSV = "protocol.csv"
 # enviroments
 RSS_VERBOSE = "RSS_VERBOSE"
 
+
 # DB
 DB_FILE = "db.pickle"
 DB_DIR = "db"
@@ -30,3 +31,6 @@ HTML_FILE = "feeds.html"
 
 # FB2
 FB2_FILE = "feeds.fb2"
+
+# COLORIZE
+RSS_COLORIZE = "RSS_COLORIZE"

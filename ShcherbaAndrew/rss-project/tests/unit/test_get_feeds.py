@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """Test get_feeds functions."""
 
-
-from rssreader.get_feeds import remove_tags, extract_atr_from_tag, extract_string_from_tag
+import sys
 from bs4 import BeautifulSoup
+from rssreader.get_feeds import get_feed_from_URL, remove_tags, extract_atr_from_tag, extract_string_from_tag
+from rssreader.command_line_parser import get_args
+from rssreader.interfaces import FeedClass
 
 
 def test_remove_tags_return_cleared_string():
@@ -48,3 +50,12 @@ def test_extract_string_from_tag_return_string():
     new_parent_tag.append(new_title)
     assert extract_string_from_tag(
         new_parent_tag, "title", "fake") == "expected"
+
+
+def test_get_feed_from_URL():
+    args_list = ["test",
+                 "https://www.dotabuff.com/blog.rss"]
+    sys.argv = args_list
+    args = get_args()
+    res = get_feed_from_URL(args)
+    assert type(res) == FeedClass

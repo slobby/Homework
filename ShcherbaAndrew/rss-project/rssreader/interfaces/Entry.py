@@ -4,6 +4,7 @@
 
 import uuid
 from typing import List
+from .Colors import Colors
 
 
 class EntryClass:
@@ -47,10 +48,11 @@ class EntryClass:
         Returns:
             str: output string
         """
+        cl = Colors()
         return f"\n\
-Title  : {self.title if self.title else ''}\n\
-Link   : {self.link if self.link else ''}\n\
-Date   : {self.published if self.published else ''}\n\
-Media  : {self.enclosure if self.enclosure else self.content if self.content else ''}\n\
-Content: {self.description_parsed if self.description_parsed else ''}\n\
+{cl.GREEN}Title  : {self.title if self.title else ''}\n\
+{cl.CYAN}Link   : {self.link if self.link else ''}\n\
+{cl.MAGENTA}Date   : {self.published if self.published else ''}\n\
+{cl.BLUE}Media  : {self.enclosure if self.enclosure else self.content if self.content else ''}\n\
+{cl.MAGENTA}Content:{cl.RESET} {self.description_parsed if self.description_parsed else ''}\n\
 \n"

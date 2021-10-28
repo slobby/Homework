@@ -76,6 +76,13 @@ RSS reader."
         help="set (path)filename of created fb2 file.",
     )
 
+    parser.add_argument(
+        "--colorize",
+        dest="is_colorize",
+        action="store_true",
+        help="colorize outputs",
+    )
+
     args = parser.parse_args()
     programArgs = ProgramArgs(args)
     if programArgs.limit is not None and programArgs.limit < 0:

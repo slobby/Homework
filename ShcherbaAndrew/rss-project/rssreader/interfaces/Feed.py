@@ -5,6 +5,7 @@ import uuid
 import jsonpickle
 from typing import List
 from .Entry import EntryClass
+from .Colors import Colors
 
 jsonpickle.set_preferred_backend("json")
 jsonpickle.set_encoder_options("json", ensure_ascii=False)
@@ -45,13 +46,14 @@ class FeedClass:
         Returns:
             str: output string
         """
+        cl = Colors()
         result = f"\n\n\
-Title: {self.title if self.title else ''}\n\n\
-Link: {self.link if self.link else ''}\n\
-Description: {self.description if self.description else ''}\n\n\n"
+{cl.GREEN}Title: {self.title if self.title else ''}\n\n\
+{cl.CYAN}Link: {self.link if self.link else ''}\n\
+{cl.MAGENTA}Description:{cl.RESET} {self.description if self.description else ''}{cl.RESET}\n\n\n"
 
         for index, value in enumerate(self.entries):
-            result += f"\nNews [{index+1}]\n{value.to_string()}"
+            result += f"\nNews [{cl.RED}{index+1}{cl.RESET}]\n{value.to_string()}"
 
         return result
 
