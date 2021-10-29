@@ -2,10 +2,9 @@ __pycache__
 *.html
 *.fb2
 *.pickle
-/rss-project/*
-!/rss-project/tests
-!/rss-project/rssreader
-/rss-project/rssreader/*.csv
+.coverage
+/rss-project/build
+/rss-project/dist
+/rss-project/rssreader.egg-info
+/rss-project/rssreader/protocol.csv
 /rss-project/rssreader/__pycache__
-!/rss-project/README.md
-/rss-project/setup.py
