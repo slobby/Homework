@@ -231,7 +231,8 @@ def extract_atr_from_tag(parent_tag: Tag, name: str, atr: str, url: str) -> Unio
         if isinstance(inner_tag, Tag):
             if inner_tag.name == name:
                 atribute = inner_tag.get(atr, None)
-                is_jpeg = atribute.endswith("image/jpeg")
+                if atribute is not None:
+                    is_jpeg = atribute.endswith("image/jpeg")
                 if atribute is not None and is_jpeg:
                     break
                 else:

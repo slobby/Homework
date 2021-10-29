@@ -15,6 +15,7 @@ def get_feed_list():
                           guid="guid_Entry1_1",
                           enclosure="enclosure_Entry1_1",
                           content="content_Entry1_1",
+                          thumbnail="thumbnail_Entry1_1",
                           id=None)
 
     entry1_2 = EntryClass(title="title_Entry1_2",
@@ -24,6 +25,7 @@ def get_feed_list():
                           published="published_Entry1_2",
                           guid="guid_Entry1_2",
                           enclosure="enclosure_Entry1_2",
+                          thumbnail="thumbnail_Entry1_2",
                           content="content_Entry1_2",
                           id=None)
 
@@ -34,6 +36,7 @@ def get_feed_list():
                           published="published_Entry2_1",
                           guid="guid_Entry2_1",
                           enclosure="enclosure_Entry2_1",
+                          thumbnail="thumbnail_Entry2_1",
                           content="content_Entry2_1",
                           id=None)
 
@@ -44,6 +47,7 @@ def get_feed_list():
                           published="published_Entry2_2",
                           guid="guid_Entry2_2",
                           enclosure="enclosure_Entry2_2",
+                          thumbnail="thumbnail_Entry2_2",
                           content="content_Entry2_2",
                           id=None)
 
