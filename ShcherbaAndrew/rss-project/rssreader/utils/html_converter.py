@@ -16,47 +16,255 @@ def html_converter(feeds: List[FeedClass], path: str) -> None:
     """
     doc, tag, text, line = Doc().ttl()
     head_tag = '''<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <title>RSS reader</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <style>
+    /*Обнуление*/
+    * {
+      padding: 0;
+      margin: 0;
+      border: 0;
+    }
+
+    *,
+    *:before,
+    *:after {
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    :focus,
+    :active {
+      outline: none;
+    }
+
+    a:focus,
+    a:active {
+      outline: none;
+    }
+
+    nav,
+    footer,
+    header,
+    aside {
+      display: block;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+      font-size: 100%;
+      line-height: 1;
+      font-size: 14px;
+      -ms-text-size-adjust: 100%;
+      -moz-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    input,
+    button,
+    textarea {
+      font-family: inherit;
+    }
+
+    input::-ms-clear {
+      display: none;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    button::-moz-focus-inner {
+      padding: 0;
+      border: 0;
+    }
+
+    a,
+    a:visited {
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: none;
+    }
+
+    ul li {
+      list-style: none;
+    }
+
+    img {
+      vertical-align: top;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    /*--------------------*/
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .wrapper {
+      min-height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+
+    }
+
+    .content {
+      flex: 1 1 auto;
+      max-width: 1180px;
+      margin: auto;
+    }
+
+    .cotainer {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .feed__head {
+      background-color: #b1bbc7;
+      margin: 0px auto;
+      padding: 20px;
+      color: #fdfdfd;
+      font-size: 20px;
+      letter-spacing: 0.3px;
+    }
+
+    .feed__head p {
+      font-size: 14px;
+      margin: 10px 0px;
+    }
+
+    .feed__head__title {
+      color: #fdfdfd;
+
+    }
+
+    .feed__header__date {
+      font-size: 14px;
+      margin: 10px 0px;
+    }
+
+    .feed__items {
+      color: #445161;
+      display: flex;
+      flex-direction: column;
+      margin: 20px 0px;
+    }
+
+    .feed__item {
+      display: flex;
+      background-color: #f5f5f5;
+      margin: 10px 0px;
+    }
+
+    .feed__item__info {
+      padding: 20px;
+      flex: 4;
+    }
+
+    .feed__item__info p {
+      font-size: 14px;
+      margin: 10px 0px;
+    }
+
+    .feed__item__title {
+      font-size: 16px;
+    }
+
+    .feed__item__image {
+      padding: 20px;
+      flex: 1;
+    }
+    
+    img{
+        max-width: 100%;
+        max-height: 100%;
+        display: block; /* remove extra space below image */
+    }
+
+    .footer {
+      background-color: #f5f5f5;
+      flex: 0 0 auto;
+    }
+
+    .footer__row {
+      display: flex;
+      height: 65px;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .footer__text {
+      color: #445162;
+      font-size: 12px;
+      letter-spacing: 0.3px;
+    }
+  </style>
+  <title>RSS reader</title>
 </head>'''
+
+    footer = '''
+    <footer class="footer">
+        <div class="footer__container">
+            <div class="footer__row">
+            <div class="footer__text">RSS News 2021</div>
+            </div>
+        </div>
+        </footer>'''
 
     doc.asis("<!DOCTYPE html>")
     with tag("html", lang="en"):
         doc.asis(head_tag)
         with tag("body"):
-            with tag("div"):
-                for feed in feeds:
-                    with tag("div"):
-                        line("h1", "Feed", klass="display-4")
-                        line("p", feed.title, klass="lead")
-                        with tag("p", klass="lead"):
-                            line("a", "feed source", href=feed.source)
-                        with tag("p", klass="lead"):
-                            line("a", "link", href=feed.link)
-                        if feed.description:
-                            with tag("p", klass="lead"):
-                                text("description :")
-                            line("p", feed.description)
-                        doc.stag("hr", klass="my-1")
-                        with tag("div"):
-                            for entry in feed.entries:
-                                with tag("div", style="outline: 2px solid"):
-                                    line("h3", entry.title, klass="lead")
-                                    line(
-                                        "p", f"date: {entry.published}", klass="lead")
-                                    with tag("p", klass="lead"):
-                                        line("a", "link", href=entry.link)
-                                    if (entry.enclosure):
-                                        with tag("div"):
-                                            doc.stag(
-                                                "img", src=entry.enclosure, height="200", width="200")
-                                    if entry.description:
-                                        line("p", "description :", klass="lead")
-                                        with tag("p", klass="lead"):
-                                            doc.asis(entry.description)
-
+            with tag("div", klass="wrapper"):
+                with tag("div", klass="content"):
+                    with tag("div", klass="container"):
+                        for feed in feeds:
+                            with tag("div", klass="feed"):
+                                with tag("div", klass="feed__head"):
+                                    line("div", feed.title,
+                                         klass="feed__head__title")
+                                    with tag("p"):
+                                        line("a", feed.source,
+                                             href=feed.source)
+                                    with tag("p",):
+                                        line("a", feed.link, href=feed.link)
+                                    if feed.description:
+                                        with tag("p"):
+                                            line("p", feed.description)
+                                with tag("div", klass="feed__items"):
+                                    for entry in feed.entries:
+                                        with tag("div", klass="feed__item"):
+                                            with tag("div", klass="feed__item__info"):
+                                                line("div", entry.title,
+                                                     klass="feed__item__title")
+                                                line("p", f"{entry.published}")
+                                                with tag("p"):
+                                                    line("a", entry.link,
+                                                         href=entry.link)
+                                                if entry.description:
+                                                    with tag("p"):
+                                                        doc.asis(
+                                                            entry.description)
+                                            with tag("div", klass="feed__item__image"):
+                                                if (entry.enclosure or entry.content):
+                                                    doc.stag(
+                                                        "img", src=(entry.enclosure or entry.content))
+            doc.asis(footer)
     result = indent(doc.getvalue())
     with open(path, 'w', encoding=ENCODING_OUT) as f:
         f.write(result)
