@@ -96,7 +96,7 @@ Content: В целях повышения обеспечения пожарно�
   {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "array",
-  "items": [
+  "feeds": [
     {
       "type": "object",
       "properties": {
@@ -137,6 +137,15 @@ Content: В целях повышения обеспечения пожарно�
                   "type": "string"
                 },
                 "published": {
+                  "type": "string"
+                },
+                "enclosure": {
+                  "type": "string"
+                },
+                "content": {
+                  "type": "string"
+                },
+                "thumbnail": {
                   "type": "string"
                 },
                 "guid": {
