@@ -155,6 +155,8 @@ def parse_items(
     if items_tag_list:
         for item in items_tag_list:
             title = extract_string_from_tag(item, "title", req_url)
+            if title:
+                title = remove_tags(title)
             link = extract_string_from_tag(item, "link", req_url)
             description = extract_string_from_tag(item, "description", req_url)
             description_parsed = None
@@ -164,6 +166,7 @@ def parse_items(
             guid = extract_string_from_tag(item, "guid", req_url)
             enclosure = extract_atr_from_tag(item, "enclosure", "url", req_url)
             content = extract_atr_from_tag(item, "content", "url", req_url)
+            thumbnail = extract_atr_from_tag(item, "thumbnail", "url", req_url)
 
             entry = EntryClass(
                 title=title,
@@ -173,7 +176,8 @@ def parse_items(
                 published=published,
                 guid=guid,
                 enclosure=enclosure,
-                content=content
+                content=content,
+                thumbnail=thumbnail
             )
             entries.append(entry)
     return entries
@@ -227,7 +231,8 @@ def extract_atr_from_tag(parent_tag: Tag, name: str, atr: str, url: str) -> Unio
         if isinstance(inner_tag, Tag):
             if inner_tag.name == name:
                 atribute = inner_tag.get(atr, None)
-                if atribute is not None:
+                is_jpeg = atribute.endswith("image/jpeg")
+                if atribute is not None and is_jpeg:
                     break
                 else:
                     logger.warning(

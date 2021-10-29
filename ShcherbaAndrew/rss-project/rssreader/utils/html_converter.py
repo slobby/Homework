@@ -261,9 +261,9 @@ def html_converter(feeds: List[FeedClass], path: str) -> None:
                                                         doc.asis(
                                                             entry.description)
                                             with tag("div", klass="feed__item__image"):
-                                                if (entry.enclosure or entry.content):
+                                                if (entry.enclosure or entry.content or entry.thumbnail):
                                                     doc.stag(
-                                                        "img", src=(entry.enclosure or entry.content))
+                                                        "img", src=(entry.enclosure or entry.content or entry.thumbnail))
             doc.asis(footer)
     result = indent(doc.getvalue())
     with open(path, 'w', encoding=ENCODING_OUT) as f:

@@ -66,9 +66,9 @@ def fb2_converter(feeds: List[FeedClass], path: str) -> None:
                                 f"Link: <a l:href='#{entry.link}'>{entry.link}</a>")
                         if entry.description_parsed:
                             line("p", entry.description_parsed)
-                        if (entry.enclosure or entry.content):
+                        if (entry.enclosure or entry.content or entry.thumbnail):
                             doc.asis(
-                                f"<image l:href='#{entry.enclosure or entry.content}'/>")
+                                f"<image l:href='#{entry.enclosure or entry.content or entry.thumbnail}'/>")
                         doc.stag("empty-line")
                         doc.stag("empty-line")
     for feed in feeds:

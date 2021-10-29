@@ -20,6 +20,7 @@ class EntryClass:
         guid: str,
         enclosure: str,
         content: str,
+        thumbnail: str,
         id: str = None,
     ):
         """Create entity.
@@ -40,6 +41,7 @@ class EntryClass:
         self.published: str = published
         self.enclosure: str = enclosure
         self.content: str = content
+        self.thumbnail: str = thumbnail
         self.guid: str = guid if guid else str(self.id)
 
     def to_string(self) -> str:
@@ -48,11 +50,12 @@ class EntryClass:
         Returns:
             str: output string
         """
+        media = self.enclosure or self.content or self.thumbnail
         cl = Colors()
         return f"\n\
 {cl.GREEN}Title  : {self.title if self.title else ''}\n\
 {cl.CYAN}Link   : {self.link if self.link else ''}\n\
 {cl.MAGENTA}Date   : {self.published if self.published else ''}\n\
-{cl.BLUE}Media  : {self.enclosure if self.enclosure else self.content if self.content else ''}\n\
+{cl.BLUE}Media  : {media if media else ''}\n\
 {cl.MAGENTA}Content:{cl.RESET} {self.description_parsed if self.description_parsed else ''}\n\
 \n"
