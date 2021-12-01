@@ -7,8 +7,8 @@ import os
 import time
 from typing import Callable
 from rssreader.constants import VERSION
-from rssreader.interfaces import ProgramArgs
-from rssreader.utils import print_message
+from rssreader.ProgramArgs import ProgramArgs
+# from rssreader.utils.print_message import print_message
 
 
 def get_args() -> ProgramArgs:
@@ -86,11 +86,11 @@ RSS reader."
     args = parser.parse_args()
     programArgs = ProgramArgs(args)
     if programArgs.limit is not None and programArgs.limit < 0:
-        print_message(f"Wrong --limit param value - [{programArgs.limit}].\n")
+        print(f"Wrong --limit param value - [{programArgs.limit}].\n")
         parser.print_help()
         parser.exit(1)
     if programArgs.source is None and programArgs.date is None:
-        print_message(
+        print(
             f"Param [source] is required if you don`t set param [--date].\n")
         parser.print_help()
         parser.exit(1)

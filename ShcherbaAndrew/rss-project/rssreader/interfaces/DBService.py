@@ -133,9 +133,9 @@ class DBService():
             Returns:
                 Union[FeedClass, None]: feeds
             """
-            if feed.source == source or \
-                    feed.link == source or \
-                    feed.source.startswith(source):
+            if feed.source == sourse or \
+                    feed.link == sourse or \
+                    feed.source.startswith(sourse):
                 return feed
             else:
                 return None
@@ -143,7 +143,7 @@ class DBService():
         return DBService.find_by_filter(feeds, url_filter)
 
     @staticmethod
-    def find_by_filter(feeds: List[FeedClass], filter: Callable) -> List[FeedClass]:
+    def find_by_filter(feeds: List[FeedClass], filter_func: Callable) -> List[FeedClass]:
         """Filter by taken filter.
 
         Args:
@@ -155,7 +155,7 @@ class DBService():
         """
         result = []
         for feed in feeds:
-            filtered_feed = filter(feed)
+            filtered_feed = filter_func(feed)
             if filtered_feed:
                 result.append(filtered_feed)
         return result

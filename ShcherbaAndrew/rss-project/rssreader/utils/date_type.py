@@ -21,5 +21,6 @@ def date_type(value: str, format: str) -> Union[time.struct_time, None]:
     try:
         date_time = time.strptime(value, format)
     except ValueError:
-        logger.error(f"Couldn`t convert [value] in datetime, with format [{format}]")
+        logger.error(
+            f"Couldn`t convert [{value}] in datetime, with format [{format}]")
     return date_time
